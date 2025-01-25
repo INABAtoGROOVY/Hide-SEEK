@@ -32,3 +32,4 @@ sysinfo.txt
 .vs
 Release/
 Debug/
+Logs/*
