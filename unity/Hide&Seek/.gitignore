@@ -30,6 +30,7 @@ sysinfo.txt
 
 # Visual Studio
 .vs
+.vscode
 Release/
 Debug/
 Logs/*
