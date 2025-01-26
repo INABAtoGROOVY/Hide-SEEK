@@ -41,8 +41,6 @@ public class EightBitConverter : MonoBehaviour
     {
         if (!isConvert)
             return;
-        if (!SoundManager.Instance.IsBGMPlaying())
-            return;
         if (_bgmSpectrum == null)
             return;
 
