@@ -33,7 +33,7 @@ public class EightBitConverter : MonoBehaviour
 
         _bgmSpectrum = SoundManager.Instance.GetBGMSpectrumData(_samples);
 
-        //�X�y�N�g���\��
+        // スペクトル表示
         for (int i = 1; i < _bgmSpectrum.Length - 1; i++)
         {
             Debug.DrawLine(
@@ -49,10 +49,10 @@ public class EightBitConverter : MonoBehaviour
         if (_bgmSpectrum == null)
             return;
 
-        // �����ƕϊ���̉��̊��������߂�
+        // 原音と変換後の音の割合を決める
         for (int i = 0; i < _samples; i++)
         {
-            // ����������������������
+            // 割合分原音を小さくする
             data[i] *= (1 - _ratio);
         }
 
@@ -85,7 +85,7 @@ public class EightBitConverter : MonoBehaviour
     }
 
     /// <summary>
-    /// �g���擾
+    /// 波を取得
     /// </summary>
     private float[] GetWave(WaveType type, int index, int channels, float freqency)
     {
