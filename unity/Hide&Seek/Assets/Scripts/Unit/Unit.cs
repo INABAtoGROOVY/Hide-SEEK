@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public void Initialze(InGameView view)
+    public void Initialze(InGameView view, Camera gameCamera)
     {
         _model = gameObject.AddComponent<UnitModel>();
         _model.Initialize();
 
         _controller = gameObject.AddComponent<UnitController>();
-        _controller.Initialize(view, _model.GetTransfrom());
+        _controller.Initialize(view, _model.GetTransfrom(), gameCamera);
         
     }
 

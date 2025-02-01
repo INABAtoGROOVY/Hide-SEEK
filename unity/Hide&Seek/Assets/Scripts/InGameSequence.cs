@@ -12,13 +12,14 @@ public class InGameSequence : MonoBehaviour
         Finish
     }
 
-    public void Initialize(InGameView view, Unit unit)
+    public void Initialize(InGameView view, Unit unit, Camera gameCamera)
     {
         _sequenceType = SequenceType.Init;
         _isInGameEnd = false;
 
         _view = view;
         _unit = unit;
+        _unit.Initialze(_view, gameCamera);
     }
 
     public IEnumerator InGameExcecute()
@@ -30,7 +31,6 @@ public class InGameSequence : MonoBehaviour
             switch (_sequenceType)
             {
                 case SequenceType.Init:
-                    _unit.Initialze(_view);
                     _sequenceType = SequenceType.Game;
                     break;
                 case SequenceType.Wait:
@@ -56,4 +56,5 @@ public class InGameSequence : MonoBehaviour
 
     private InGameView _view;
     private Unit _unit;
+    private Camera _3dCamera;
 }
