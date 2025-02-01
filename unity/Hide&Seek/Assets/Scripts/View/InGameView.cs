@@ -31,7 +31,7 @@ public class InGameView : MonoBehaviour
 
     public void SetInteractableHideButton(bool isInteractable) => SetInteractableButton(hideButton, isInteractable);
 
-    public Vector2 GetJoyStickDirection() =>  joystick.Direction;
+    public IJoyStick GetJoyStick() => joystick;
 
     private void SetInteractableButton(Button button, bool isInteractable)
     {

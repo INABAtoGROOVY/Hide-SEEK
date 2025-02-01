@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         // TODO  ボタンを押したときの処理を実装する
@@ -15,12 +14,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(_sequence.Excecute());
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
-
 
     [SerializeField]
     private InGameView inGameView;
