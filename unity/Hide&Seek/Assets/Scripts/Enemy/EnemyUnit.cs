@@ -14,6 +14,12 @@ public class EnemyUnit : MonoBehaviour
         Chase,
     }
 
+    //TODO つながったら消す
+    void Update()
+    {
+        Execute();
+    }
+
     public void Execute()
     {
         switch (actionType)
@@ -44,11 +50,12 @@ public class EnemyUnit : MonoBehaviour
     {
         agent.SetDestination(wayPoints[targetIndex % wayPoints.Length].position);
         //Debug.LogError($"set destination {targetIndex % wayPoints.Length}");
+        actionType = ActionType.Patrol;
     }
 
     private void Patrol()
     {
-        if (agent.remainingDistance > 0)
+        if (agent.remainingDistance <= 0)
         {
             targetIndex++;
             actionType = ActionType.BeginPatrol;
