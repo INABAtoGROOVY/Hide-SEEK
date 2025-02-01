@@ -124,7 +124,8 @@ public class EnemyUnit : MonoBehaviour
     {
         var diff = target.transform.position - transform.position;
         RaycastHit hit;
-        return Physics.Raycast(transform.position, diff.normalized, out hit, diff.magnitude);
+        var ray = Physics.Raycast(transform.position, diff.normalized, out hit, diff.magnitude);
+        return ray && hit.collider.tag != "Player";
     }
 
     [SerializeField]
