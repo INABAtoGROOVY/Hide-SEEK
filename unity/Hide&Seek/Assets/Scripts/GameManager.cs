@@ -7,20 +7,23 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // TODO  ボタンを押したときの処理を実装する
-        inGameView.Initialize(
+        _inGameView.Initialize(
             onClickActionButton: () => Debug.Log("on click action button"),
             onClickHideButton: () => Debug.Log("on click hide button")
         );
-        StartCoroutine(_sequence.Excecute());
-    }
 
-    void Update()
-    {
+        _inGameSequence.Initialize(_inGameView, _unit);
 
+        _mainLoop = _inGameSequence.InGameExcecute();
+        StartCoroutine(_mainLoop);
     }
 
     [SerializeField]
-    private InGameView inGameView;
+    private InGameView _inGameView;
 
-    GameSequence _sequence = new GameSequence();
+    [SerializeField]
+    private Unit _unit;
+
+    IEnumerator _mainLoop;
+    InGameSequence _inGameSequence = new InGameSequence();
 }
