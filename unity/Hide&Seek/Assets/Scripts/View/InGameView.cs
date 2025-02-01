@@ -16,6 +16,8 @@ public class InGameView : MonoBehaviour
     {
         actionButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
+            if (!actionButton.interactable) return;
+
             onClickActionButton?.Invoke();
             SetInteractableButton(actionButton, false);
             Observable.Timer(TimeSpan.FromSeconds(ActionInterval)).Subscribe(_ =>
@@ -25,6 +27,8 @@ public class InGameView : MonoBehaviour
         }).AddTo(this);
         hideButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
+            if (!hideButton.interactable) return;
+
             onClickHideButton?.Invoke();
         }).AddTo(this);
     }
@@ -47,5 +51,5 @@ public class InGameView : MonoBehaviour
     [SerializeField]
     private Joystick joystick;
 
-    private static readonly float ActionInterval= 3f;
+    private static readonly float ActionInterval = 3f;
 }
