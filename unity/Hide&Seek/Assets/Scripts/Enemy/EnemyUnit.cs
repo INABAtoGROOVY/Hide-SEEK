@@ -28,7 +28,7 @@ public class EnemyUnit : MonoBehaviour
             if (IsHitRaycast(other.transform))
             {
                 _watchTargetTransform = other.transform;
-                _actionType = State.Watch;
+                _actionType = State.BeginWatch;
             }
             else
             {
