@@ -15,10 +15,15 @@ public class EightBitConverter : MonoBehaviour
         {
             _waveTime.Add(0);
         }
-    }
 
-    void Start()
-    {
+        // TODO 最終的に使わなかったら消す
+        // 音程に対応した周波数を計算する
+        // for(int i = 0; i < _pickUpNotesNum; i++)
+        // {
+        //     _pickUpNotesFrequencies.Add(
+        //         ConvertNoteNumberToFrequency(i + _pickUpNotesTop)
+        //     );
+        // }
     }
 
     void Update()
@@ -28,7 +33,7 @@ public class EightBitConverter : MonoBehaviour
 
         _bgmSpectrum = SoundManager.Instance.GetBGMSpectrumData(_samples);
 
-        //�X�y�N�g���\��
+        //�X�y�N�g���\��
         for (int i = 1; i < _bgmSpectrum.Length - 1; i++)
         {
             Debug.DrawLine(
@@ -44,44 +49,43 @@ public class EightBitConverter : MonoBehaviour
         if (_bgmSpectrum == null)
             return;
 
-        // �����ƕϊ���̉��̊��������߂�
+        // �����ƕϊ���̉��̊��������߂�
         for (int i = 0; i < _samples; i++)
         {
-            // ����������������������
+            // ����������������������
             data[i] *= (1 - _ratio);
         }
 
         float[] wave = new float[_samples];
         for (int i = 0; i < _samples; i++)
         {
-            //Debug.Log(calculateNoteNumberFromFrequency(_bgmSpectrum[i] % 12));
             if (_bgmSpectrum[i] < _threshold) continue;
-            if (_bgmSpectrum[i] < _bgmSpectrum.Average())
+            if (_bgmSpectrum[i] < _bgmSpectrum.Average()) continue;
+
+            // 音程下限と上限でフィルタリングする
+            var freqency = CalculateFrequency(i) * Mathf.Pow(2, _pitch / 12);
+            var noteNubmer = ConvertFrequencyToNoteNumber(freqency);
+            if (noteNubmer < _pickUpNotesTop || _pickUpNotesTop + _pickUpNotesNum <= noteNubmer)
             {
-                //continue;
+                continue;
             }
 
-            //Debug.Log(_bgmSpectrum[i]);
             wave = GetWave(
                 _waveType,
                 i,
                 channels,
-                ((float)_sampleRate / (float)_samples) * i * Mathf.Pow(2, (_pitch / 12))
+                freqency
             );
 
             for (int j = 0; j < data.Length; j++)
             {
-                //calculateNoteNumberFromFrequency(wave[j]);
-                //Debug.Log(calculateNoteNumberFromFrequency(wave[j] % 12));
-                //Debug.Log(noteNames[calculateNoteNumberFromFrequency(wave[j] % 12)]);
                 data[j] += wave[j] * _bgmSpectrum[i] * _ratio;
             }
-
         }
     }
 
     /// <summary>
-    /// �g���擾
+    /// �g���擾
     /// </summary>
     private float[] GetWave(WaveType type, int index, int channels, float freqency)
     {
@@ -148,12 +152,28 @@ public class EightBitConverter : MonoBehaviour
         }
     }
 
-    // See https://en.wikipedia.org/wiki/MIDI_tuning_standard
-    private int calculateNoteNumberFromFrequency(float freq)
+    /// <summary>
+    /// 周波数から音程の近似値に変換する
+    /// https://en.wikipedia.org/wiki/MIDI_tuning_standard
+    private int ConvertFrequencyToNoteNumber(float freq)
     {
-        Debug.Log(freq);
-        Debug.Log(Mathf.FloorToInt(69 + 12 * Mathf.Log(freq / 440, 2)));
-        return Mathf.FloorToInt(69 + 12 * Mathf.Log(freq / 440, 2));
+        return Mathf.FloorToInt(69 + 12 * Mathf.Log(freq / 440));
+    }
+
+    /// <summary>
+    /// 音程から周波数の近似値に変換する
+    /// https://en.wikipedia.org/wiki/MIDI_tuning_standard
+    private float ConvertNoteNumberToFrequency(int noteNubmer)
+    {
+        return (float)(440 * Math.Exp(Math.Log(2) / 12 * (noteNubmer - 69)));
+    }
+
+    /// <summary>
+    /// サンプル数に応じた周波数を計算する
+    /// </summary>
+    private float CalculateFrequency(int index)
+    {
+        return (float)_sampleRate / (float)_samples * index;
     }
 
     private enum WaveType
@@ -180,4 +200,10 @@ public class EightBitConverter : MonoBehaviour
     private float[] _bgmSpectrum = null;
     List<double> _waveTime = new List<double>();
     private int _sampleRate = 4800; //AudioSettings.outputSampleRate
+
+    private int _pickUpNotesTop = 48;
+    private int _pickUpNotesNum = 48;
+
+    // TODO 最終的に使わなかったら消す
+    //private List<float> _pickUpNotesFrequencies = new List<float>(); 
 }
