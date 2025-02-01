@@ -564,6 +564,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
   m_PrefabInstance: {fileID: 276696166}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &282205524 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+  m_PrefabInstance: {fileID: 276696166}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &371055806
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,6 +694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionButton: {fileID: 1396796975}
   hideButton: {fileID: 1109057701}
+  joystick: {fileID: 282205524}
 --- !u!4 &917372756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1351227682164954753, guid: 640fecea31044a5429c6ffac50e1882b, type: 3}
