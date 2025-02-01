@@ -6,37 +6,60 @@ using UnityEngine.AI;
 
 public class EnemyUnit : MonoBehaviour
 {
-    public enum ActionType
+    public enum State
     {
         BeginPatrol,
         Patrol,
+        BeginWatch,
         Watch,
         Chase,
     }
 
-    //TODO つながったら消す
+    //TODO あとで消す
     void Update()
     {
         Execute();
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            if (IsHitRaycast(other.transform))
+            {
+                _watchTargetTransform = other.transform;
+                _actionType = State.Watch;
+            }
+            else
+            {
+                _chaseTargetTransform = other.transform;
+                _actionType = State.Chase;
+            }
+        }
+    }
+
     public void Execute()
     {
-        switch (actionType)
+        Debug.LogError(_actionType);
+        switch (_actionType)
         {
-            case ActionType.BeginPatrol:
+            case State.BeginPatrol:
                 BeginPatrol();
                 break;
 
-            case ActionType.Patrol:
+            case State.Patrol:
                 Patrol();
                 break;
 
-            case ActionType.Watch:
+            case State.BeginWatch:
+                BeginWatch();
+                break;
+
+            case State.Watch:
                 Watch();
                 break;
 
-            case ActionType.Chase:
+            case State.Chase:
                 Chase();
                 break;
 
@@ -46,30 +69,62 @@ public class EnemyUnit : MonoBehaviour
         }
     }
 
+    #region 行動
     private void BeginPatrol()
     {
-        agent.SetDestination(wayPoints[targetIndex % wayPoints.Length].position);
+        agent.SetDestination(wayPoints[_targetIndex % wayPoints.Length].position);
         //Debug.LogError($"set destination {targetIndex % wayPoints.Length}");
-        actionType = ActionType.Patrol;
+        _actionType = State.Patrol;
     }
 
     private void Patrol()
     {
         if (agent.remainingDistance <= 0)
         {
-            targetIndex++;
-            actionType = ActionType.BeginPatrol;
+            _targetIndex++;
+            _actionType = State.BeginPatrol;
         }
+    }
+
+    private void BeginWatch()
+    {
+        agent.SetDestination(_watchTargetTransform.position);
+        _actionType = State.Watch;
     }
 
     private void Watch()
     {
-
+        if (agent.remainingDistance <= 0)
+        {
+            _targetIndex++;
+            _actionType = State.BeginPatrol;
+        }
     }
 
     private void Chase()
     {
+        if (IsHitRaycast(_chaseTargetTransform))
+        {
+            _overlookedTime += Time.deltaTime;
+            if (_overlookedTime >= OverlookedTimeDuration)
+            {
+                _overlookedTime = 0;
+                _actionType = State.BeginPatrol;
+            }
+        }
+        else
+        {
+            _overlookedTime = 0;
+            agent.SetDestination(_chaseTargetTransform.position);
+        }
+    }
+    #endregion
 
+    private bool IsHitRaycast(Transform target)
+    {
+        var diff = target.transform.position - transform.position;
+        RaycastHit hit;
+        return Physics.Raycast(transform.position, diff.normalized, out hit, diff.magnitude);
     }
 
     [SerializeField]
@@ -78,6 +133,11 @@ public class EnemyUnit : MonoBehaviour
     [SerializeField]
     private NavMeshAgent agent;
 
-    private int targetIndex;
-    private ActionType actionType = ActionType.BeginPatrol;
+    private int _targetIndex;
+    private State _actionType = State.BeginPatrol;
+    private Transform _watchTargetTransform;
+    private Transform _chaseTargetTransform;
+    private float _overlookedTime;
+
+    private static readonly float OverlookedTimeDuration = 3f;
 }
