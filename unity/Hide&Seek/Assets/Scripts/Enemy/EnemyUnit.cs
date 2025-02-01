@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,64 @@ using UnityEngine.AI;
 
 public class EnemyUnit : MonoBehaviour
 {
-    private int targetIndex;
+    public enum ActionType
+    {
+        BeginPatrol,
+        Patrol,
+        Watch,
+        Chase,
+    }
+
+    public void Execute()
+    {
+        switch (actionType)
+        {
+            case ActionType.BeginPatrol:
+                BeginPatrol();
+                break;
+
+            case ActionType.Patrol:
+                Patrol();
+                break;
+
+            case ActionType.Watch:
+                Watch();
+                break;
+
+            case ActionType.Chase:
+                Chase();
+                break;
+
+            default:
+                Debug.LogError("undefined action");
+                break;
+        }
+    }
+
+    private void BeginPatrol()
+    {
+        agent.SetDestination(wayPoints[targetIndex % wayPoints.Length].position);
+        //Debug.LogError($"set destination {targetIndex % wayPoints.Length}");
+    }
+
+    private void Patrol()
+    {
+        if (agent.remainingDistance > 0)
+        {
+            targetIndex++;
+            actionType = ActionType.BeginPatrol;
+        }
+    }
+
+    private void Watch()
+    {
+
+    }
+
+    private void Chase()
+    {
+
+    }
 
     [SerializeField]
     private Transform[] wayPoints;
@@ -13,30 +71,6 @@ public class EnemyUnit : MonoBehaviour
     [SerializeField]
     private NavMeshAgent agent;
 
-    void Start()
-    {
-        Initialize();
-    }
-
-    private void Initialize()
-    {
-        StartCoroutine(Patrol());
-    }
-
-    private IEnumerator Patrol()
-    {
-        while (true)
-        {
-            agent.SetDestination(wayPoints[targetIndex % wayPoints.Length].position);
-            //Debug.LogError($"set destination {targetIndex % wayPoints.Length}");
-
-            yield return null;
-            while (agent.remainingDistance > 0)
-            {
-                yield return null;
-            }
-            targetIndex++;
-
-        }
-    }
+    private int targetIndex;
+    private ActionType actionType = ActionType.BeginPatrol;
 }
