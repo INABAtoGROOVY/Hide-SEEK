@@ -193,7 +193,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   agent: {fileID: 3549610394661872159}
-  _dummyPlayerUnit: {fileID: 0}
 --- !u!135 &1203626277247439904
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -213,7 +212,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 7
+  m_Radius: 12
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2711322505275554005
 GameObject:
