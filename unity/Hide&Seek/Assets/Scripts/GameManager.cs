@@ -12,17 +12,18 @@ public class GameManager : MonoBehaviour
             onClickHideButton: () => Debug.Log("on click hide button")
         );
 
-        _inGameSequence.Initialize(_inGameView, _unit);
+        _inGameSequence.Initialize(_inGameView, _unit, _3dCamera);
 
         _mainLoop = _inGameSequence.InGameExcecute();
         StartCoroutine(_mainLoop);
     }
 
     [SerializeField]
-    private InGameView _inGameView;
-
+    private InGameView _inGameView = default;
     [SerializeField]
-    private Unit _unit;
+    private Unit _unit = default;
+    [SerializeField]
+    private Camera _3dCamera = default;
 
     IEnumerator _mainLoop;
     InGameSequence _inGameSequence = new InGameSequence();
