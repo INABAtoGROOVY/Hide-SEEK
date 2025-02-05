@@ -15,6 +15,9 @@ public class Unit : MonoBehaviour
 
         _camera = gameObject.AddComponent<UnitCamera>();
         _camera.Initialize(gameCamera, _modelTransform.localPosition);
+
+        _unitCollision = _modelTransform.gameObject.AddComponent<UnitCollision>();
+        _unitCollision.Initialize(Dead);
     }
 
     public void Excecute()
@@ -23,9 +26,15 @@ public class Unit : MonoBehaviour
         _camera.Excecute(_modelTransform.localPosition);
     }
 
+    private void Dead()
+    {
+    
+    }
+
     private UnitController _controller;
     private UnitModel _model;
     private UnitCamera _camera;
+    private UnitCollision _unitCollision;
 
     private Transform _modelTransform;
 }

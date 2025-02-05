@@ -15,4 +15,5 @@ public class UnitModel : MonoBehaviour
     }
 
     private GameObject _modelObj;
+    private Animator _animator;
 }

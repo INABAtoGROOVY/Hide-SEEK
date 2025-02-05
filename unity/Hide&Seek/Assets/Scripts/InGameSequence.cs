@@ -12,7 +12,7 @@ public class InGameSequence : MonoBehaviour
         Finish
     }
 
-    public void Initialize(InGameView view, Unit unit, Camera gameCamera)
+    public void Initialize(InGameView view, Unit unit, Camera gameCamera, ItemManager itemManager)
     {
         _sequenceType = SequenceType.Init;
         _isInGameEnd = false;
@@ -20,6 +20,9 @@ public class InGameSequence : MonoBehaviour
         _view = view;
         _unit = unit;
         _unit.Initialze(_view, gameCamera);
+
+        _itemManager = itemManager;
+        _itemManager.Initalize();
     }
 
     public IEnumerator InGameExcecute()
@@ -37,6 +40,7 @@ public class InGameSequence : MonoBehaviour
                     break;
                 case SequenceType.Game:
                     _unit.Excecute();
+                    _itemManager.Excecute();
                     break;
                 case SequenceType.Finish:
                     break;
@@ -48,13 +52,11 @@ public class InGameSequence : MonoBehaviour
         yield break;
     }
 
-    [SerializeField]
-    private GameObject _playerObj = default;
-
     private SequenceType _sequenceType;
     private bool _isInGameEnd;
 
     private InGameView _view;
     private Unit _unit;
     private Camera _3dCamera;
+    private ItemManager _itemManager;
 }
