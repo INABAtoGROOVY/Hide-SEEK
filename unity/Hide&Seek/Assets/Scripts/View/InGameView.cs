@@ -15,6 +15,7 @@ public class InGameView : MonoBehaviour
     )
     {
         timer.ApplyTime(100);
+        itemCountFrameView.Apply(0, 9);
 
         SetInteractableButton(actionButton, true);
         actionButton.OnPointerClickAsObservable().Subscribe(_ =>
@@ -56,6 +57,9 @@ public class InGameView : MonoBehaviour
 
     [SerializeField]
     private Timer timer;
+
+    [SerializeField]
+    private ItemCountFrameView itemCountFrameView;
 
     [SerializeField]
     private Joystick joystick;
