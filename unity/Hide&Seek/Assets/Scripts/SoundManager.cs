@@ -17,6 +17,8 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
         base.Awake();
     }
 
+    public EightBitConverter eightBitConverter { get { return _converter; } }
+
     public void PlayBGM(BGMData.BGMType type)
     {
         BGMData data = GetBGMClip(type);
