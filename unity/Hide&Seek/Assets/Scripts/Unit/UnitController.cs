@@ -93,6 +93,9 @@ public class UnitController : MonoBehaviour
 
         _unitModel.GetTransfrom().localRotation = Quaternion.Euler(0.0f, angle, 0.0f);
         _unitModel.GetTransfrom().localPosition += _unitModel.GetTransfrom().localRotation * new Vector3(0.0f, 0.0f, _speed);
+
+        // HIDEボタンの切り替え
+        _view.SetInteractableHideButton(_hideManager.enableHideEntity != null);
     }
 
     private void Avoid()
@@ -132,7 +135,6 @@ public class UnitController : MonoBehaviour
         {
             _enableHideEnd = true;
         }
-
     }
 
     private void HideEnd()

@@ -14,6 +14,7 @@ public class InGameView : MonoBehaviour
         Action onClickHideButton
     )
     {
+        SetInteractableButton(actionButton, true);
         actionButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
             if (!actionButton.interactable) return;
@@ -26,6 +27,7 @@ public class InGameView : MonoBehaviour
             }).AddTo(this);
         }).AddTo(this);
 
+        SetInteractableButton(hideButton, false);
         hideButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
             if (!hideButton.interactable) return;
