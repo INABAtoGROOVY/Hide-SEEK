@@ -6,14 +6,14 @@ public class Unit : MonoBehaviour
 {
     public Transform modelTransform{ get{ return _modelTransform; } }
 
-    public void Initialze(InGameView view, Camera gameCamera)
+    public void Initialze(InGameView view, Camera gameCamera, HideManager hideManager)
     {
         _model = gameObject.AddComponent<UnitModel>();
         _model.Initialize();
         _modelTransform = _model.GetTransfrom();
 
         _controller = gameObject.AddComponent<UnitController>();
-        _controller.Initialize(view, _modelTransform);
+        _controller.Initialize(view, _model, hideManager);
 
         _camera = gameObject.AddComponent<UnitCamera>();
         _camera.Initialize(gameCamera, _modelTransform.localPosition);

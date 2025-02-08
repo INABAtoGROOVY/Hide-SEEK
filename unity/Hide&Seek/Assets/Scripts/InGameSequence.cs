@@ -18,7 +18,7 @@ public class InGameSequence : MonoBehaviour
         _sequenceType = SequenceType.Init;
         _isInGameEnd = false;
 
-        _unit.Initialze(_inGameView, _3dCamera);
+        _unit.Initialze(_inGameView, _3dCamera, _hideManager);
 
         _itemManager.Initalize();
         _hideManager.Initialize(_unit.modelTransform);
