@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public Transform modelTransform{ get{ return _modelTransform; } }
+
+    public UnitController unitController { get{ return _controller; } }
 
     public void Initialze(InGameView view, Camera gameCamera, HideManager hideManager)
     {
@@ -19,7 +22,7 @@ public class Unit : MonoBehaviour
         _camera.Initialize(gameCamera, _modelTransform.localPosition);
 
         _unitCollision = _modelTransform.gameObject.AddComponent<UnitCollision>();
-        _unitCollision.Initialize(Dead);
+        _unitCollision.Initialize(Dead, _modelTransform);
     }
 
     public void Excecute()
@@ -30,7 +33,7 @@ public class Unit : MonoBehaviour
 
     private void Dead()
     {
-    
+        Debug.Log("ASDFADSFASFDASFDA");
     }
 
     private UnitController _controller;

@@ -14,9 +14,6 @@ public class InGameView : MonoBehaviour
         Action onClickHideButton
     )
     {
-        timer.ApplyTime(100);
-        itemCountFrameView.Apply(0, 9);
-
         SetInteractableButton(actionButton, true);
         actionButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
@@ -38,6 +35,16 @@ public class InGameView : MonoBehaviour
             hideButton.SetText(hideButton.isHold ? HideEndText : HideText);
             onClickHideButton?.Invoke();
         }).AddTo(this);
+    }
+
+    public void SetTimerUI(int time)
+    {
+        timer.ApplyTime(time);
+    }
+
+    public void SetItemView(int current, int limit)
+    {
+        itemCountFrameView.Apply(current, limit);
     }
 
     public void SetInteractableHideButton(bool isInteractable) => SetInteractableButton(hideButton, isInteractable);

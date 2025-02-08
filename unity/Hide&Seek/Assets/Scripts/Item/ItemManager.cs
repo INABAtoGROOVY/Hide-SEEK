@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    public void Initalize()
+    public void Initalize(Action<int, int> getUIAction)
     {
         SetupItem();
+
+        _getUIAction = getUIAction;
+        _getUIAction(_getCount, _itemPosList.Count);
     }
 
     public void Execute()
@@ -37,6 +41,8 @@ public class ItemManager : MonoBehaviour
     {
         _getCount++;
 
+        _getUIAction(_getCount, _itemPosList.Count);
+
         if(_itemPosList.Count == _getCount)
         {
             Debug.Log("FINISH ");
@@ -50,4 +56,5 @@ public class ItemManager : MonoBehaviour
 
     private int _getCount;
     private List<ItemEntity> _itemEntityList = new List<ItemEntity>();
+    private Action<int, int> _getUIAction;
 }
