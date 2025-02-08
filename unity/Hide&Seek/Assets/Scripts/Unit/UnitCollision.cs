@@ -10,6 +10,11 @@ public class UnitCollision : MonoBehaviour
         _deadCallback = action;
     }
 
+    public void Excecute()
+    {
+    
+    }
+
     void OnTriggerEnter(Collider other)
     {
         switch(other.tag)

@@ -40,7 +40,7 @@ public class EnemyUnit : MonoBehaviour
 
     public void Execute()
     {
-        Debug.LogError(_actionType);
+        //Debug.LogError(_actionType);
         switch (_actionType)
         {
             case State.BeginPatrol:
