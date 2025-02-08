@@ -154,6 +154,11 @@ public class UnitController : MonoBehaviour
         }
     }
 
+    public bool IsHide()
+    {
+        return controlState == ControlState.Hide;
+    }
+
     public enum ControlState
     {
         Move,
