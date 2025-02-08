@@ -15,10 +15,15 @@ public class EnemyUnit : MonoBehaviour
         Chase,
     }
 
-    //TODO あとで消す
-    void Update()
+    public void Initialize(GameObject wayPointObj)
     {
-        Execute();
+        int wayPointCount = wayPointObj.transform.childCount;
+
+        wayPoints = new Transform[wayPointCount];
+        for(int idx = 0; idx < wayPointCount; idx++)
+        {
+            wayPoints[idx] = wayPointObj.transform.GetChild(idx).transform;
+        }
     }
 
     void OnTriggerStay(Collider other)

@@ -8,6 +8,11 @@ public class EightBitConverter : MonoBehaviour
 {
     public bool isConvert = false;
 
+    public void SetRatio(float ratio)
+    {
+        _ratio = ratio;
+    }
+
     void Awake()
     {
         _sampleRate = AudioSettings.outputSampleRate;
@@ -47,6 +52,9 @@ public class EightBitConverter : MonoBehaviour
         if (!isConvert)
             return;
         if (_bgmSpectrum == null)
+            return;
+
+        if (_ratio == 0)
             return;
 
         // 原音と変換後の音の割合を決める

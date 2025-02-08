@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
         _inGameSequence = GetComponent<InGameSequence>();
         _inGameSequence.Initialize();
 
-        _mainLoop = _inGameSequence.InGameExcecute();
+        _mainLoop = _inGameSequence.InGameExecute();
         StartCoroutine(_mainLoop);
     }
 

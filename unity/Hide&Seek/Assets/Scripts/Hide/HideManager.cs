@@ -21,7 +21,7 @@ public class HideManager : MonoBehaviour
         _unitModelTransform = unitModelTransform;
     }
 
-    public void Excecute()
+    public void Execute()
     {
         for(int idx = 0; idx < _hideEntityList.Count; idx++)
         {
@@ -44,7 +44,6 @@ public class HideManager : MonoBehaviour
             {
                 minDistance = distance;
                 minDistanceIndex = idx;
-                Debug.Log(minDistance);
             }
         }
 

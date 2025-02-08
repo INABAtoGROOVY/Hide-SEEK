@@ -9,7 +9,7 @@ public class ItemManager : MonoBehaviour
         SetupItem();
     }
 
-    public void Excecute()
+    public void Execute()
     {
         for(int idx = 0; idx < _itemEntityList.Count; idx++)
         {

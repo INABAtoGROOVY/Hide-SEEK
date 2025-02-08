@@ -22,9 +22,10 @@ public class InGameSequence : MonoBehaviour
 
         _itemManager.Initalize();
         _hideManager.Initialize(_unit.modelTransform);
+        _enemyUnitManager.Initialize(_unit.modelTransform);
     }
 
-    public IEnumerator InGameExcecute()
+    public IEnumerator InGameExecute()
     {
         SoundManager.Instance.PlayBGM(BGMData.BGMType.InGame);
 
@@ -39,8 +40,9 @@ public class InGameSequence : MonoBehaviour
                     break;
                 case SequenceType.Game:
                     _unit.Excecute();
-                    _itemManager.Excecute();
-                    _hideManager.Excecute();
+                    _itemManager.Execute();
+                    _hideManager.Execute();
+                    _enemyUnitManager.Execute();
                     break;
                 case SequenceType.Finish:
                     break;
@@ -65,4 +67,6 @@ public class InGameSequence : MonoBehaviour
     private ItemManager _itemManager = default;
     [SerializeField]
     private HideManager _hideManager = default;
+    [SerializeField]
+    private EnemyUnitManager _enemyUnitManager = default;
 }
