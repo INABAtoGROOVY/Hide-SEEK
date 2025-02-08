@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     void Start()
     {
+        Application.targetFrameRate = 60;
+
         _inGameSequence = GetComponent<InGameSequence>();
         _inGameSequence.Initialize();
 
