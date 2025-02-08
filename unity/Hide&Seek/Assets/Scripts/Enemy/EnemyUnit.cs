@@ -37,8 +37,16 @@ public class EnemyUnit : MonoBehaviour
             }
             else
             {
-                _chaseTargetTransform = other.transform;
-                _actionType = State.Chase;
+                if (other.transform.GetComponentInParent<UnitController>().IsHide())
+                {
+                    _watchTargetTransform = other.transform;
+                    _actionType = State.BeginPatrol;
+                }
+                else
+                {
+                    _chaseTargetTransform = other.transform;
+                    _actionType = State.Chase;
+                }  
             }
         }
     }
