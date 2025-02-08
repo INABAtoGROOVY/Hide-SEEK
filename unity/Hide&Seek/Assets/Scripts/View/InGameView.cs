@@ -14,6 +14,8 @@ public class InGameView : MonoBehaviour
         Action onClickHideButton
     )
     {
+        timer.ApplyTime(100);
+
         SetInteractableButton(actionButton, true);
         actionButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
@@ -51,6 +53,9 @@ public class InGameView : MonoBehaviour
 
     [SerializeField]
     private HoldableButton hideButton;
+
+    [SerializeField]
+    private Timer timer;
 
     [SerializeField]
     private Joystick joystick;
