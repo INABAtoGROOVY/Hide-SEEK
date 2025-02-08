@@ -32,7 +32,7 @@ public class UnitController : MonoBehaviour
                 Avoid();
                 break;
             case ControlState.Hide:
-                Hide();
+                //Hide();
                 break;
         }
 
@@ -102,9 +102,14 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    private void Hide()
+    private void HideStart()
     {
         _state = ControlState.Move;
+    }
+
+    private void HideEnd()
+    {
+    
     }
 
     public enum ControlState
@@ -123,4 +128,7 @@ public class UnitController : MonoBehaviour
 
     private float _avoidTime = 0.1f;
     private float _avoidTimer = 0.0f;
+
+    private bool _isHide = false;
+    private HideManager _hideManager;
 }

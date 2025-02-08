@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public Transform modelTransform{ get{ return _modelTransform; } }
+
     public void Initialze(InGameView view, Camera gameCamera)
     {
         _model = gameObject.AddComponent<UnitModel>();
