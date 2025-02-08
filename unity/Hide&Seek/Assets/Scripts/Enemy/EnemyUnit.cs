@@ -67,6 +67,8 @@ public class EnemyUnit : MonoBehaviour
                 Debug.LogError("undefined action");
                 break;
         }
+
+        SetSpeed(_actionType);
     }
 
     #region 行動
@@ -128,6 +130,21 @@ public class EnemyUnit : MonoBehaviour
         return ray && hit.collider.tag != "Player";
     }
 
+    private void SetSpeed(State state)
+    {
+        _speed = state switch
+        {
+            State.BeginPatrol => DefaultSpeed,
+            State.Patrol => DefaultSpeed,
+            State.BeginWatch => DefaultSpeed,
+            State.Watch => DefaultSpeed,
+            State.Chase => ChaseSpeed,
+            _ => DefaultSpeed,
+        };
+
+        agent.speed = _speed;
+    }
+
     [SerializeField]
     private Transform[] wayPoints;
 
@@ -139,6 +156,9 @@ public class EnemyUnit : MonoBehaviour
     private Transform _watchTargetTransform;
     private Transform _chaseTargetTransform;
     private float _overlookedTime;
+    private float _speed;
 
     private static readonly float OverlookedTimeDuration = 3f;
+    private static readonly float DefaultSpeed = 4f;
+    private static readonly float ChaseSpeed = 15f;
 }
