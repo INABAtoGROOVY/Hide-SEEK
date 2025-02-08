@@ -166,7 +166,7 @@ public class UnitController : MonoBehaviour
     private ControlState _oldState;
 
     private InGameView _view;
-    private float _speed = 0.05f;
+    private float _speed = 0.1f;
     private UnitModel _unitModel;
 
     private float _avoidTime = 0.1f;
