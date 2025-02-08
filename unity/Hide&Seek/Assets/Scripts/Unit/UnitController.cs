@@ -7,11 +7,12 @@ public class UnitController : MonoBehaviour
 {
     public ControlState controlState{ get{ return _state; } }
 
-    public void Initialize(InGameView view, Transform modelTransform)
+    public void Initialize(InGameView view, UnitModel unitModel, HideManager hideManager)
     {
         _view = view;
-        _modelTransform = modelTransform;
+        _unitModel = unitModel;
         _state = ControlState.Move;
+        _hideManager = hideManager;
 
         _view.Initialize(
             onClickActionButton: () => ChangeState(ControlState.Avoid),
@@ -32,7 +33,10 @@ public class UnitController : MonoBehaviour
                 Avoid();
                 break;
             case ControlState.Hide:
-                //Hide();
+                HideStart();
+                break;
+            case ControlState.HideEnd:
+                HideEnd();
                 break;
         }
 
@@ -46,10 +50,16 @@ public class UnitController : MonoBehaviour
             case ControlState.Move:
                 break;
             case ControlState.Avoid:
-            case ControlState.Hide:
                 if (_state != ControlState.Move)
                     return;
-            break;
+                break;
+            case ControlState.Hide:
+                if (_state == ControlState.Avoid)
+                    return;
+
+                if (_enableHideEnd)
+                    state = ControlState.HideEnd;
+                break;
         }
 
         _state = state;
@@ -79,10 +89,10 @@ public class UnitController : MonoBehaviour
 
         float angle = Mathf.Atan2(vector.x, vector.y) * Mathf.Rad2Deg;
 
-        Vector3 oldPos = _modelTransform.localPosition;
+        Vector3 oldPos = _unitModel.GetTransfrom().localPosition;
 
-        _modelTransform.localRotation = Quaternion.Euler(0.0f, angle, 0.0f);
-        _modelTransform.localPosition += _modelTransform.localRotation * new Vector3(0.0f, 0.0f, _speed);
+        _unitModel.GetTransfrom().localRotation = Quaternion.Euler(0.0f, angle, 0.0f);
+        _unitModel.GetTransfrom().localPosition += _unitModel.GetTransfrom().localRotation * new Vector3(0.0f, 0.0f, _speed);
     }
 
     private void Avoid()
@@ -92,7 +102,7 @@ public class UnitController : MonoBehaviour
             _avoidTimer = 0.0f;
         }
 
-        _modelTransform.localPosition += _modelTransform.localRotation * new Vector3(0.0f, 0.0f, 0.5f);
+        _unitModel.GetTransfrom().localPosition += _unitModel.GetTransfrom().localRotation * new Vector3(0.0f, 0.0f, 0.5f);
 
         _avoidTimer += Time.deltaTime;
 
@@ -104,19 +114,50 @@ public class UnitController : MonoBehaviour
 
     private void HideStart()
     {
-        _state = ControlState.Move;
+        if (_hideManager.enableHideEntity == null)
+        {
+            _state = ControlState.Move;
+            return;
+        }
+
+        if (_oldState != _state)
+        {
+            _hideTimer = 0.0f;
+        }
+
+        _unitModel.ModelBanish(true);
+
+        _hideTimer += Time.deltaTime;
+        if (_hideTimer > _hideStartWaitTime)
+        {
+            _enableHideEnd = true;
+        }
+
     }
 
     private void HideEnd()
     {
-    
+        if (_oldState != _state)
+        {
+            _hideTimer = 0.0f;
+        }
+
+        _unitModel.ModelBanish(false);
+
+        _hideTimer += Time.deltaTime;
+        if (_hideTimer > _hideEndWaitTime)
+        {
+            _state = ControlState.Move;
+            _enableHideEnd = false;
+        }
     }
 
     public enum ControlState
     {
         Move,
         Avoid,
-        Hide
+        Hide,
+        HideEnd
     }
 
     private ControlState _state;
@@ -124,11 +165,16 @@ public class UnitController : MonoBehaviour
 
     private InGameView _view;
     private float _speed = 0.05f;
-    private Transform _modelTransform;
+    private UnitModel _unitModel;
 
     private float _avoidTime = 0.1f;
     private float _avoidTimer = 0.0f;
 
     private bool _isHide = false;
+    private bool _enableHideEnd = false;
     private HideManager _hideManager;
+
+    private float _hideTimer = 0.0f;
+    private float _hideStartWaitTime = 0.1f;
+    private float _hideEndWaitTime = 0.1f;
 }

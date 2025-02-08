@@ -15,9 +15,9 @@ public class UnitModel : MonoBehaviour
         return _modelObj.transform;
     }
 
-    public void Transparent(bool isTransparent)
+    public void ModelBanish(bool isBanish)
     {
-        _meshObj.SetActive(isTransparent);
+        _meshObj.SetActive(!isBanish);
     }
 
     private GameObject _meshObj;
