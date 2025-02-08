@@ -25,10 +25,12 @@ public class InGameView : MonoBehaviour
                 SetInteractableButton(actionButton, true);
             }).AddTo(this);
         }).AddTo(this);
+
         hideButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
             if (!hideButton.interactable) return;
-
+            hideButton.isHold = !hideButton.isHold;
+            hideButton.SetText(hideButton.isHold ? HideEndText : HideText);
             onClickHideButton?.Invoke();
         }).AddTo(this);
     }
@@ -43,13 +45,15 @@ public class InGameView : MonoBehaviour
     }
 
     [SerializeField]
-    private Button actionButton;
+    private HoldableButton actionButton;
 
     [SerializeField]
-    private Button hideButton;
+    private HoldableButton hideButton;
 
     [SerializeField]
     private Joystick joystick;
 
     private static readonly float ActionInterval = 3f;
+    private static readonly string HideText = "HIDE";
+    private static readonly string HideEndText = "HIDE\nEND";
 }
