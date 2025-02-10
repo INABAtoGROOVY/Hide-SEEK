@@ -47,6 +47,9 @@ public class RecorderSystem : SingletonMonobehaviour<RecorderSystem>
 
     public RecordDataCollection LoadRecord(string loadKeyName)
     {
+        _currentActionIndex = 0;
+        _currentMoveInex = 0;
+
         string json = PlayerPrefs.GetString(loadKeyName);
         _collection = JsonUtility.FromJson<RecordDataCollection>(json);
         return _collection;
