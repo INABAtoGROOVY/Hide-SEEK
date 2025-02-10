@@ -13,7 +13,7 @@ public class EnemyUnitManager : MonoBehaviour
             enemy.transform.localPosition = _enemyUnitPosList[idx];
             enemy.transform.localRotation = Quaternion.identity;
 
-            enemy.Initialize(_wayPointObj);
+            enemy.Initialize(_wayPointObj, idx);
             _enemyUnitList.Add(enemy);
         }
 

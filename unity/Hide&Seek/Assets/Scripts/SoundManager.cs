@@ -15,11 +15,14 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
     protected override void Awake()
     {
         base.Awake();
-
-        _converter = Camera.main.GetComponent<EightBitConverter>();
     }
 
     public EightBitConverter eightBitConverter { get { return _converter; } }
+
+    public void Initialize()
+    {
+        _converter = Camera.main.GetComponent<EightBitConverter>();
+    }
 
     public void PlayBGM(BGMData.BGMType type, bool isConvert)
     {

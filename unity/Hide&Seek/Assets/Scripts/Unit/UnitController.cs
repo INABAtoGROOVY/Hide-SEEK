@@ -27,17 +27,18 @@ public class UnitController : MonoBehaviour
         _moveRecordLoop = null;
         _moveReplayLoop = null;
 
-        SetupAgentMove(RecorderSystem.Instance.isReplay);
     }
 
-    public void Excecute()
+    public void Execute()
     {
+        // 通常プレイの場合、移動操作保存ループ開始
         if(!RecorderSystem.Instance.isReplay && _moveRecordLoop == null)
         {
             _moveRecordLoop = MoveRecord();
             StartCoroutine(_moveRecordLoop);
         }
 
+        // リプレイの場合、移動操作リプレイループ開始
         if(RecorderSystem.Instance.isReplay && _moveReplayLoop == null)
         {
             _moveReplayLoop = MoveReplay();
@@ -162,21 +163,19 @@ public class UnitController : MonoBehaviour
         if(RecorderSystem.Instance.isReplay)
         {
             vector = _replayJoystickVec;
-
-            if (vector == Vector2.zero)
-            {
-                return;
-            }
         }
         else
         {
-            if (_view.GetJoyStick().JoyStickDirection() == Vector2.zero)
-            {
-                return;
-            }
-
             vector = _view.GetJoyStick().JoyStickDirection();
         }
+
+        if (vector == Vector2.zero)
+        {
+            _unitModel.SetAnimatorMove(false);
+            return;
+        }
+
+        _unitModel.SetAnimatorMove(true);
 
         float angle = Mathf.Atan2(vector.x, vector.y) * Mathf.Rad2Deg;
 
@@ -196,22 +195,12 @@ public class UnitController : MonoBehaviour
             _avoidTimer = 0.0f;
         }
 
-        if(RecorderSystem.Instance.isReplay)
-        {
-            SetupAgentMove(false);
-        }
-
         _unitModel.GetTransfrom().localPosition += _unitModel.GetTransfrom().localRotation * new Vector3(0.0f, 0.0f, 0.5f);
 
         _avoidTimer += Time.deltaTime;
 
         if (_avoidTimer > _avoidTime)
         {
-            if (RecorderSystem.Instance.isReplay)
-            {
-                SetupAgentMove(true);
-            }
-
             _state = ControlState.Move;
         }
     }
@@ -227,11 +216,6 @@ public class UnitController : MonoBehaviour
         if (_oldState != _state)
         {
             _hideTimer = 0.0f;
-        }
-
-        if (RecorderSystem.Instance.isReplay)
-        {
-            SetupAgentMove(false);
         }
 
         _unitModel.ModelBanish(true);
@@ -257,11 +241,6 @@ public class UnitController : MonoBehaviour
         _hideTimer += Time.deltaTime;
         if (_hideTimer > _hideEndWaitTime)
         {
-            if (RecorderSystem.Instance.isReplay)
-            {
-                SetupAgentMove(true);
-            }
-
             _state = ControlState.Move;
             _enableHideEnd = false;
         }
@@ -299,28 +278,19 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    private void SetupAgentMove(bool isActive)
-    {
-        if(isActive)
-        {
-            _agent.speed = 6f;
-            _agent.acceleration = 0f;
-            _agent.angularSpeed = 999f;
-            _agent.stoppingDistance = 0;
-            _agent.isStopped = false;
-        }
-        else
-        {
-            _agent.speed = 0f;
-            _agent.isStopped = true;
-        }
-    }
-
+    /// <summary>
+    /// 隠れている状態か
+    /// </summary>
+    /// <returns></returns>
     public bool IsHide()
     {
         return controlState == ControlState.Hide;
     }
 
+    /// <summary>
+    /// 無敵の状態か
+    /// </summary>
+    /// <returns></returns>
     public bool IsInvinsible()
     {
         return controlState == ControlState.Avoid || controlState == ControlState.Hide;

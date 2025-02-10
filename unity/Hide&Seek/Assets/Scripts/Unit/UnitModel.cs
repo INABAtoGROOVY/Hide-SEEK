@@ -8,11 +8,17 @@ public class UnitModel : MonoBehaviour
     {
         _meshObj = transform.GetChild(0).gameObject;
         _modelObj = transform.GetChild(1).gameObject;
+        _animator = GetComponent<Animator>();
     }
 
     public Transform GetTransfrom()
     {
         return _modelObj.transform;
+    }
+
+    public void SetAnimatorMove(bool isMove)
+    {
+        _animator.SetBool("isMove", isMove);
     }
 
     public void ModelBanish(bool isBanish)

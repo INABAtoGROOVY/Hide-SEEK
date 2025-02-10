@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour
 
     public void Excecute()
     {
-        _controller.Excecute();
+        _controller.Execute();
         _camera.Excecute(_modelTransform.localPosition);
     }
 

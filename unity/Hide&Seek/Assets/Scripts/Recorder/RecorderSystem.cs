@@ -13,6 +13,12 @@ public class RecorderSystem : SingletonMonobehaviour<RecorderSystem>
 
     public RecordDataCollection collection{ get{ return _collection; } }
 
+    /// <summary>
+    /// リプレイ保存開始準備処理
+    /// Prefsのキー・移動操作保存間隔を設定
+    /// </summary>
+    /// <param name="recordKeyName"></param>
+    /// <param name="moveRecordInterval"></param>
     public void StartRecord(string recordKeyName, float moveRecordInterval)
     {
         if (_collection == null)
@@ -24,6 +30,14 @@ public class RecorderSystem : SingletonMonobehaviour<RecorderSystem>
         _collection.Initialize(recordKeyName);
     }
 
+    /// <summary>
+    /// リプレイデータ追加
+    /// </summary>
+    /// <param name="gameTime"></param>
+    /// <param name="type"></param>
+    /// <param name="param1"></param>
+    /// <param name="param2"></param>
+    /// <param name="param3"></param>
     public void AddRecord(float gameTime, RecordData.RecordType type, float param1, float param2, float param3)
     {
         if (isReplay)
@@ -39,12 +53,20 @@ public class RecorderSystem : SingletonMonobehaviour<RecorderSystem>
         _collection.recordList.Add(record);
     }
 
+    /// <summary>
+    /// 追加されているリプレイデータを保存
+    /// </summary>
     public void SaveRecord()
     {
         string json = JsonUtility.ToJson(_collection);
         PlayerPrefs.SetString(_collection.keyName, json);
     }
 
+    /// <summary>
+    /// 保存されているリプレイデータを読み込む
+    /// </summary>
+    /// <param name="loadKeyName"></param>
+    /// <returns></returns>
     public RecordDataCollection LoadRecord(string loadKeyName)
     {
         _currentActionIndex = 0;
@@ -55,6 +77,10 @@ public class RecorderSystem : SingletonMonobehaviour<RecorderSystem>
         return _collection;
     }
 
+    /// <summary>
+    /// 次の移動操作リプレイデータを取得
+    /// </summary>
+    /// <returns></returns>
     public RecordData NextMoveRecord()
     {
         if (_currentMoveInex >= _collection.recordList.Count)
@@ -72,6 +98,11 @@ public class RecorderSystem : SingletonMonobehaviour<RecorderSystem>
         return null;
     }
 
+    /// <summary>
+    /// 次の操作リプレイデータリストを取得
+    /// </summary>
+    /// <param name="gameTime"></param>
+    /// <returns></returns>
     public List<RecordData> NextActionRecord(float gameTime)
     {
         List<RecordData> list = new List<RecordData>();
