@@ -5,9 +5,9 @@ public class ItemCountFrameView : MonoBehaviour
 {
     public void Apply(int currentValue, int goalValue)
     {
-        text.text = $"{currentValue}/{goalValue}";
+        _text.text = $"{currentValue}/{goalValue}";
     }
 
     [SerializeField]
-    private TextMeshProUGUI text;
+    private TextMeshProUGUI _text;
 }

@@ -15,50 +15,50 @@ public class InGameView : MonoBehaviour
         Action onClickHideButton
     )
     {
-        SetInteractableButton(actionButton, true);
-        actionButton.OnPointerClickAsObservable().Subscribe(_ =>
+        SetInteractableButton(_actionButton, true);
+        _actionButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
-            if (!actionButton.interactable) return;
+            if (!_actionButton.interactable) return;
 
             onClickActionButton?.Invoke();
-            SetInteractableButton(actionButton, false);
+            SetInteractableButton(_actionButton, false);
             Observable.Timer(TimeSpan.FromSeconds(ActionInterval)).Subscribe(_ =>
             {
-                SetInteractableButton(actionButton, true);
+                SetInteractableButton(_actionButton, true);
             }).AddTo(this);
         }).AddTo(this);
 
-        SetInteractableButton(hideButton, false);
-        hideButton.OnPointerClickAsObservable().Subscribe(_ =>
+        SetInteractableButton(_hideButton, false);
+        _hideButton.OnPointerClickAsObservable().Subscribe(_ =>
         {
-            if (!hideButton.interactable) return;
-            hideButton.isHold = !hideButton.isHold;
-            hideButton.SetText(hideButton.isHold ? HideEndText : HideText);
+            if (!_hideButton.interactable) return;
+            _hideButton.isHold = !_hideButton.isHold;
+            _hideButton.SetText(_hideButton.isHold ? HideEndText : HideText);
             onClickHideButton?.Invoke();
         }).AddTo(this);
     }
 
     public void SetTimerUI(int time)
     {
-        timer.ApplyTime(time);
+        _timer.ApplyTime(time);
     }
 
     public void SetItemView(int current, int limit)
     {
-        itemCountFrameView.Apply(current, limit);
+        _itemCountFrameView.Apply(current, limit);
     }
 
     public void SetActiveInGameUI(bool isActive)
     {
-        actionButton.gameObject.SetActive(isActive);
-        hideButton.gameObject.SetActive(isActive);
-        joystick.gameObject.SetActive(isActive);
+        _actionButton.gameObject.SetActive(isActive);
+        _hideButton.gameObject.SetActive(isActive);
+        _joystick.gameObject.SetActive(isActive);
         _heaerGroup.gameObject.SetActive(isActive);
     }
 
-    public void SetInteractableHideButton(bool isInteractable) => SetInteractableButton(hideButton, isInteractable);
+    public void SetInteractableHideButton(bool isInteractable) => SetInteractableButton(_hideButton, isInteractable);
 
-    public IJoyStick GetJoyStick() => joystick;
+    public IJoyStick GetJoyStick() => _joystick;
 
     public void SetActiveStartReadyUI(bool isActive)
     {
@@ -76,22 +76,22 @@ public class InGameView : MonoBehaviour
     }
 
     [SerializeField]
-    private HoldableButton actionButton;
+    private HoldableButton _actionButton;
 
     [SerializeField]
-    private HoldableButton hideButton;
+    private HoldableButton _hideButton;
 
     [SerializeField]
     private GameObject _heaerGroup;
 
     [SerializeField]
-    private Timer timer;
+    private Timer _timer;
 
     [SerializeField]
-    private ItemCountFrameView itemCountFrameView;
+    private ItemCountFrameView _itemCountFrameView;
 
     [SerializeField]
-    private Joystick joystick;
+    private Joystick _joystick;
 
     [SerializeField]
     private GameObject _startReadyObj;
