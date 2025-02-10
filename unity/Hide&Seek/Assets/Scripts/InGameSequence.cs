@@ -18,15 +18,23 @@ public class InGameSequence : MonoBehaviour
         _sequenceType = SequenceType.Init;
         _isInGameEnd = false;
 
-        _unit.Initialze(_inGameView, _3dCamera, _hideManager);
+        _unit.Initialze(_inGameView, _3dCamera, _hideManager, SetFinish);
 
-        _itemManager.Initalize(_inGameView.SetItemView);
+        _itemManager.Initalize(_inGameView.SetItemView, SetFinish);
         _hideManager.Initialize(_unit.modelTransform);
         _enemyUnitManager.Initialize(_unit.modelTransform);
 
+        _inGameView.SetActiveInGameUI(true);
         _inGameView.SetTimerUI((int)GAME_TIME_LIMIT);
 
-        RecorerSystem.Instance.StartRecord("test");
+        if(RecorderSystem.Instance.isReplay)
+        {
+            RecorderSystem.Instance.LoadRecord("test");
+        }
+        else
+        {
+            RecorderSystem.Instance.StartRecord("test", 0f);
+        }
     }
 
     public IEnumerator InGameExecute()
@@ -43,13 +51,27 @@ public class InGameSequence : MonoBehaviour
                 case SequenceType.Wait:
                     break;
                 case SequenceType.Game:
+                    GameTimerExecute();
                     _unit.Excecute();
                     _itemManager.Execute();
                     _hideManager.Execute();
                     _enemyUnitManager.Execute();
-                    GameTimerExecute();
                     break;
                 case SequenceType.Finish:
+                    if(!_isInGameEnd)
+                    {
+                        _isInGameEnd = true;
+
+                        if (!RecorderSystem.Instance.isReplay)
+                        {
+                            RecorderSystem.Instance.SaveRecord();
+                        }
+
+                        _inGameView.SetActiveInGameUI(false);
+
+                        _resultView.gameObject.SetActive(true);
+                        _resultView.Setup(_isSuccess, Mathf.CeilToInt(GAME_TIME_LIMIT - _gameTimer), _itemManager.itemGetCount, _itemManager.itemGetLimit);
+                    }
                     break;
             }
 
@@ -63,24 +85,27 @@ public class InGameSequence : MonoBehaviour
     {
         _gameTimer += Time.deltaTime;
 
-        //_unit.unitController.SetGameTime(_gameTimer);
+        _unit.unitController.SetGameTime(_gameTimer);
 
         _inGameView.SetTimerUI(Mathf.CeilToInt(GAME_TIME_LIMIT - _gameTimer));
 
         if(_gameTimer >= GAME_TIME_LIMIT)
         {
-            SetFinish();
+            // タイムリミット判定
+            SetFinish(false);
         }
     }
 
-    private void SetFinish()
+    private void SetFinish(bool isSuccess)
     {
         _sequenceType = SequenceType.Finish;
+        _isSuccess = isSuccess;
     }
 
     private SequenceType _sequenceType = SequenceType.None;
     private bool _isInGameEnd;
     private float _gameTimer;
+    private bool _isSuccess;
 
     private const float GAME_TIME_LIMIT = 60.0f;
 
@@ -96,4 +121,6 @@ public class InGameSequence : MonoBehaviour
     private HideManager _hideManager = default;
     [SerializeField]
     private EnemyUnitManager _enemyUnitManager = default;
+    [SerializeField]
+    private ResultView _resultView = default;
 }

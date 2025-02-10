@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour
 
     public UnitController unitController { get{ return _controller; } }
 
-    public void Initialze(InGameView view, Camera gameCamera, HideManager hideManager)
+    public void Initialze(InGameView view, Camera gameCamera, HideManager hideManager, Action<bool> finishCallback)
     {
         _model = gameObject.AddComponent<UnitModel>();
         _model.Initialize();
@@ -22,7 +22,9 @@ public class Unit : MonoBehaviour
         _camera.Initialize(gameCamera, _modelTransform.localPosition);
 
         _unitCollision = _modelTransform.gameObject.AddComponent<UnitCollision>();
-        _unitCollision.Initialize(Dead, _modelTransform);
+        _unitCollision.Initialize(finishCallback, _modelTransform);
+
+        _finishCallback = finishCallback;
     }
 
     public void Excecute()
@@ -31,15 +33,12 @@ public class Unit : MonoBehaviour
         _camera.Excecute(_modelTransform.localPosition);
     }
 
-    private void Dead()
-    {
-        Debug.Log("ASDFADSFASFDASFDA");
-    }
-
     private UnitController _controller;
     private UnitModel _model;
     private UnitCamera _camera;
     private UnitCollision _unitCollision;
 
     private Transform _modelTransform;
+
+    private Action<bool> _finishCallback;
 }

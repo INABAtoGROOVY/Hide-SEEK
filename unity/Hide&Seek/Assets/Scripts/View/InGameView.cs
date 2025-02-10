@@ -47,6 +47,14 @@ public class InGameView : MonoBehaviour
         itemCountFrameView.Apply(current, limit);
     }
 
+    public void SetActiveInGameUI(bool isActive)
+    {
+        actionButton.gameObject.SetActive(isActive);
+        hideButton.gameObject.SetActive(isActive);
+        joystick.gameObject.SetActive(isActive);
+        _heaerGroup.gameObject.SetActive(isActive);
+    }
+
     public void SetInteractableHideButton(bool isInteractable) => SetInteractableButton(hideButton, isInteractable);
 
     public IJoyStick GetJoyStick() => joystick;
@@ -61,6 +69,9 @@ public class InGameView : MonoBehaviour
 
     [SerializeField]
     private HoldableButton hideButton;
+
+    [SerializeField]
+    private GameObject _heaerGroup;
 
     [SerializeField]
     private Timer timer;
