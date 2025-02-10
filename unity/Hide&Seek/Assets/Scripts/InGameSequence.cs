@@ -46,7 +46,10 @@ public class InGameSequence : MonoBehaviour
             switch (_sequenceType)
             {
                 case SequenceType.Init:
-                    _sequenceType = SequenceType.Game;
+                    if (_oldSequenceType != SequenceType.Init)
+                    {
+                        StartCoroutine(StartReadyCount());
+                    }
                     break;
                 case SequenceType.Wait:
                     break;
@@ -75,6 +78,7 @@ public class InGameSequence : MonoBehaviour
                     break;
             }
 
+            _oldSequenceType = _sequenceType;
             yield return null;
         }
 
@@ -102,11 +106,31 @@ public class InGameSequence : MonoBehaviour
         _isSuccess = isSuccess;
     }
 
+    private IEnumerator StartReadyCount()
+    {
+        _inGameView.SetActiveStartReadyUI(true);
+
+        _inGameView.SetStartReadyText("3");
+        yield return new WaitForSeconds(1.0f);
+        _inGameView.SetStartReadyText("2");
+        yield return new WaitForSeconds(1.0f);
+        _inGameView.SetStartReadyText("1");
+        yield return new WaitForSeconds(1.0f);
+
+        _inGameView.SetStartReadyText("START!!");
+        yield return new WaitForSeconds(0.5f);
+
+        _inGameView.SetActiveStartReadyUI(false);
+        _sequenceType = SequenceType.Game;
+    }
+
     private SequenceType _sequenceType = SequenceType.None;
+    private SequenceType _oldSequenceType = SequenceType.None;
+
     private bool _isInGameEnd;
     private float _gameTimer;
     private bool _isSuccess;
-
+    
     private const float GAME_TIME_LIMIT = 60.0f;
 
     [SerializeField]
