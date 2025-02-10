@@ -15,6 +15,8 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
     protected override void Awake()
     {
         base.Awake();
+
+        _converter = Camera.main.GetComponent<EightBitConverter>();
     }
 
     public EightBitConverter eightBitConverter { get { return _converter; } }
@@ -86,11 +88,6 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
         return _bgmSource.isPlaying;
     }
 
-    public void Initialized()
-    {
-
-    }
-
     private BGMData GetBGMClip(BGMData.BGMType type)
     {
         for(int idx = 0; idx < _bgmDataList.Count; idx++)
@@ -127,7 +124,6 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
     [SerializeField]
     private List<SEData> _seDataList = new List<SEData>();
 
-    [SerializeField]
     private EightBitConverter _converter;
 }
 
