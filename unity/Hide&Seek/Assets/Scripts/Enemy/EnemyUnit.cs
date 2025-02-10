@@ -20,16 +20,23 @@ public class EnemyUnit : MonoBehaviour
         int wayPointCount = wayPointObj.transform.childCount;
 
         wayPoints = new Transform[wayPointCount];
-        for(int idx = 0; idx < wayPointCount; idx++)
+        for (int idx = 0; idx < wayPointCount; idx++)
         {
             wayPoints[idx] = wayPointObj.transform.GetChild(idx).transform;
         }
+
+        agent.speed = 0;
     }
 
     void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
+            if (other.transform.GetComponentInParent<UnitController>().IsHide())
+            {
+                return;
+            }
+
             if (IsHitRaycast(other.transform))
             {
                 _watchTargetTransform = other.transform;
@@ -37,16 +44,8 @@ public class EnemyUnit : MonoBehaviour
             }
             else
             {
-                if (other.transform.GetComponentInParent<UnitController>().IsHide())
-                {
-                    _watchTargetTransform = other.transform;
-                    _actionType = State.BeginPatrol;
-                }
-                else
-                {
-                    _chaseTargetTransform = other.transform;
-                    _actionType = State.Chase;
-                }  
+                _chaseTargetTransform = other.transform;
+                _actionType = State.Chase;
             }
         }
     }
@@ -94,7 +93,7 @@ public class EnemyUnit : MonoBehaviour
 
     private void Patrol()
     {
-        if (agent.remainingDistance <= 0)
+        if (agent.remainingDistance <= 0.01f)
         {
             _targetIndex++;
             _actionType = State.BeginPatrol;
@@ -118,7 +117,7 @@ public class EnemyUnit : MonoBehaviour
 
     private void Chase()
     {
-        if (IsHitRaycast(_chaseTargetTransform))
+        if (IsHitRaycast(_chaseTargetTransform) || _chaseTargetTransform.GetComponentInParent<UnitController>().IsHide())
         {
             _overlookedTime += Time.deltaTime;
             if (_overlookedTime >= OverlookedTimeDuration)
