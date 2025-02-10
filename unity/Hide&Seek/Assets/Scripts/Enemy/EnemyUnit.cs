@@ -15,9 +15,11 @@ public class EnemyUnit : MonoBehaviour
         Chase,
     }
 
-    public void Initialize(GameObject wayPointObj)
+    public void Initialize(GameObject wayPointObj, int initTargetIndex = 0)
     {
         int wayPointCount = wayPointObj.transform.childCount;
+        _initTargetIndex = initTargetIndex;
+        _targetIndex = initTargetIndex;
 
         wayPoints = new Transform[wayPointCount];
         for (int idx = 0; idx < wayPointCount; idx++)
@@ -123,6 +125,7 @@ public class EnemyUnit : MonoBehaviour
             if (_overlookedTime >= OverlookedTimeDuration)
             {
                 _overlookedTime = 0;
+                _targetIndex = _initTargetIndex;
                 _actionType = State.BeginPatrol;
             }
         }
@@ -164,6 +167,7 @@ public class EnemyUnit : MonoBehaviour
     private NavMeshAgent agent;
 
     private int _targetIndex;
+    private int _initTargetIndex;
     private State _actionType = State.BeginPatrol;
     private Transform _watchTargetTransform;
     private Transform _chaseTargetTransform;
