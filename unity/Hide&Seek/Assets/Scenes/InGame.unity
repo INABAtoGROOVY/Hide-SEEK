@@ -703,12 +703,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8492fe5f51e874db9d932f44a813f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionButton: {fileID: 364783145}
-  hideButton: {fileID: 1779687959}
+  _actionButton: {fileID: 364783145}
+  _hideButton: {fileID: 1779687959}
   _heaerGroup: {fileID: 1828337719}
-  timer: {fileID: 88335460246122692}
-  itemCountFrameView: {fileID: 786529571}
-  joystick: {fileID: 282205524}
+  _timer: {fileID: 88335460246122692}
+  _itemCountFrameView: {fileID: 786529571}
+  _joystick: {fileID: 282205524}
   _startReadyObj: {fileID: 229913585}
   _startReadyText: {fileID: 1783772817}
 --- !u!1001 &486646098

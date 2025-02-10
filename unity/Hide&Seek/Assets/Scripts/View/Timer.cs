@@ -7,9 +7,9 @@ public class Timer : MonoBehaviour
 {
     public void ApplyTime(int time)
     {
-        text.text = $"{Mathf.FloorToInt(time / 60):D2}:{time % 60:D2}";
+        _text.text = $"{Mathf.FloorToInt(time / 60):D2}:{time % 60:D2}";
     }
 
     [SerializeField]
-    private TextMeshProUGUI text;
+    private TextMeshProUGUI _text;
 }
