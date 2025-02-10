@@ -21,13 +21,13 @@ public class EnemyUnit : MonoBehaviour
         _initTargetIndex = initTargetIndex;
         _targetIndex = initTargetIndex;
 
-        wayPoints = new Transform[wayPointCount];
+        _wayPoints = new Transform[wayPointCount];
         for (int idx = 0; idx < wayPointCount; idx++)
         {
-            wayPoints[idx] = wayPointObj.transform.GetChild(idx).transform;
+            _wayPoints[idx] = wayPointObj.transform.GetChild(idx).transform;
         }
 
-        agent.speed = 0;
+        _agent.speed = 0;
     }
 
     void OnTriggerStay(Collider other)
@@ -88,14 +88,14 @@ public class EnemyUnit : MonoBehaviour
     #region 行動
     private void BeginPatrol()
     {
-        agent.SetDestination(wayPoints[_targetIndex % wayPoints.Length].position);
+        _agent.SetDestination(_wayPoints[_targetIndex % _wayPoints.Length].position);
         //Debug.LogError($"set destination {targetIndex % wayPoints.Length}");
         _actionType = State.Patrol;
     }
 
     private void Patrol()
     {
-        if (agent.remainingDistance <= 0.01f)
+        if (_agent.remainingDistance <= 0.01f)
         {
             _targetIndex++;
             _actionType = State.BeginPatrol;
@@ -104,13 +104,13 @@ public class EnemyUnit : MonoBehaviour
 
     private void BeginWatch()
     {
-        agent.SetDestination(_watchTargetTransform.position);
+        _agent.SetDestination(_watchTargetTransform.position);
         _actionType = State.Watch;
     }
 
     private void Watch()
     {
-        if (agent.remainingDistance <= 0)
+        if (_agent.remainingDistance <= 0)
         {
             _targetIndex++;
             _actionType = State.BeginPatrol;
@@ -132,7 +132,7 @@ public class EnemyUnit : MonoBehaviour
         else
         {
             _overlookedTime = 0;
-            agent.SetDestination(_chaseTargetTransform.position);
+            _agent.SetDestination(_chaseTargetTransform.position);
         }
     }
     #endregion
@@ -157,15 +157,13 @@ public class EnemyUnit : MonoBehaviour
             _ => DefaultSpeed,
         };
 
-        agent.speed = _speed;
+        _agent.speed = _speed;
     }
 
     [SerializeField]
-    private Transform[] wayPoints;
+    private NavMeshAgent _agent;
 
-    [SerializeField]
-    private NavMeshAgent agent;
-
+    private Transform[] _wayPoints;
     private int _targetIndex;
     private int _initTargetIndex;
     private State _actionType = State.BeginPatrol;
