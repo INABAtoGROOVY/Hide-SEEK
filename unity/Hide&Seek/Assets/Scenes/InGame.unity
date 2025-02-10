@@ -327,6 +327,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 95000010169133924, guid: 2a4adfdefdadd7048a18bb7e7cc5b23b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a8a548563d3481248b517e6c0662f2bc, type: 2}
     - target: {fileID: 137000012128804862, guid: 2a4adfdefdadd7048a18bb7e7cc5b23b, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1359,7 +1363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isConvert: 0
   _waveType: 1
-  _threshold: 0.005
+  _threshold: 0.0008
   _ratio: 0
   _eightBitVolume: 1
   _pitch: -24
@@ -1836,8 +1840,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 47d5df21ed602434a9a6b8a2fba29bf4, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2078,16 +2082,36 @@ PrefabInstance:
       objectReference: {fileID: 1899162543}
     - target: {fileID: 2519675078520559420, guid: 338d05322436f5944ba9867910e57c76, type: 3}
       propertyPath: m_text
-      value: GAME DEMO
+      value: Hide & Seek
       objectReference: {fileID: 0}
     - target: {fileID: 2519675078520559420, guid: 338d05322436f5944ba9867910e57c76, type: 3}
       propertyPath: m_fontSize
       value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2519675078520559420, guid: 338d05322436f5944ba9867910e57c76, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+    - target: {fileID: 2519675078520559420, guid: 338d05322436f5944ba9867910e57c76, type: 3}
       propertyPath: m_fontSizeBase
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 2519675078520559420, guid: 338d05322436f5944ba9867910e57c76, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+    - target: {fileID: 2519675078520559420, guid: 338d05322436f5944ba9867910e57c76, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3343598083814429562, guid: 338d05322436f5944ba9867910e57c76, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3343598083814429562, guid: 338d05322436f5944ba9867910e57c76, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9580ce58b5bd3cb43abb7356adc102a8, type: 3}
     - target: {fileID: 4832161496475003973, guid: 338d05322436f5944ba9867910e57c76, type: 3}
       propertyPath: m_Name
       value: Title
@@ -2307,6 +2331,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7737778319362429143, guid: 401a634403befca4eaed6917e4120c73, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737778319362429143, guid: 401a634403befca4eaed6917e4120c73, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 47d5df21ed602434a9a6b8a2fba29bf4, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2460,7 +2492,7 @@ PrefabInstance:
     - target: {fileID: 4307311250288267422, guid: 99e75f688bbe2c64ebc7b69afb3e81e6, type: 3}
       propertyPath: _hideObj
       value: 
-      objectReference: {fileID: 2102364698758137749, guid: cdff62cd5d671ee46b00afc9afc5f684, type: 3}
+      objectReference: {fileID: 7836467709919446480, guid: 2af5b313717d08e42aa518e5567b4d26, type: 3}
     - target: {fileID: 4307311250288267422, guid: 99e75f688bbe2c64ebc7b69afb3e81e6, type: 3}
       propertyPath: _hideEntityPosList.Array.size
       value: 1
@@ -2710,9 +2742,13 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8599610929129689542, guid: b2e9e7aef6024924fb1a8536802c3073, type: 3}
+      propertyPath: _bgmDataList.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: df9e8abc16a4eac49b685e254bd49612, type: 3}
+    - target: {fileID: 8599610929129689542, guid: b2e9e7aef6024924fb1a8536802c3073, type: 3}
       propertyPath: _bgmDataList.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 3c62a9455708b614e9dc15920435c724, type: 3}
+      objectReference: {fileID: 8300000, guid: be78b44e7a6b3fb4884477d062f04285, type: 3}
     - target: {fileID: 8599610929129689542, guid: b2e9e7aef6024924fb1a8536802c3073, type: 3}
       propertyPath: _bgmDataList.Array.data[1].type
       value: 1

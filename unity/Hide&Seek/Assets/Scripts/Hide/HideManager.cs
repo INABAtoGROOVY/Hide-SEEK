@@ -13,7 +13,7 @@ public class HideManager : MonoBehaviour
             HideEntity hideEntity = Instantiate(_hideObj, transform).GetComponent<HideEntity>();
             
             hideEntity.transform.localPosition = _hideEntityPosList[idx];
-            hideEntity.transform.localRotation = Quaternion.identity;
+            hideEntity.transform.localRotation = Quaternion.Euler(new Vector3(15, 0, 0));
 
             _hideEntityList.Add(hideEntity);
         }
