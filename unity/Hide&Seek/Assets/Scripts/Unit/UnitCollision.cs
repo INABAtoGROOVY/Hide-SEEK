@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class UnitCollision : MonoBehaviour
 {
-    public void Initialize(Action action, Transform unitModelTransform)
+    public void Initialize(Action<bool> action, Transform unitModelTransform)
     {
         _deadCallback = action;
         _unitModelTransform = unitModelTransform;
         _isGameEnd = false;
+        _controller = GetComponentInParent<UnitController>();
+        Debug.Log("check");
     }
 
     public void Excecute()
@@ -44,9 +46,13 @@ public class UnitCollision : MonoBehaviour
         switch (other.tag)
         {
             case "Enemy":
+                // ñ≥ìGèÛë‘Ç≈Ç†ÇÍÇŒÉpÉX
+                if (_controller.IsInvinsible())
+                    return;
+
                 if(EnemyDistanceCheck(other.gameObject.transform))
                 {
-                    _deadCallback();
+                    _deadCallback(false);
                 }
                 break;
         }
@@ -63,7 +69,8 @@ public class UnitCollision : MonoBehaviour
 
     private const float CONTACT_ENEMY = 1.0f;
 
-    private Action _deadCallback;
+    private Action<bool> _deadCallback;
     private Transform _unitModelTransform;
     private bool _isGameEnd;
+    private UnitController _controller;
 }

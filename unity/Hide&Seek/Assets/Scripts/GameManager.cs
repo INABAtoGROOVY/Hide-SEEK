@@ -4,16 +4,34 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
-        Application.targetFrameRate = 60;
+        GameInitialize();
+
+        _titleView.gameObject.SetActive(true);
+        _titleView.Initialize(GameStart);
 
         _inGameSequence = GetComponent<InGameSequence>();
-        _inGameSequence.Initialize();
+    }
 
+    private void GameInitialize()
+    {
+        Application.targetFrameRate = 60;
+    }
+
+    private void GameStart(bool isReplay)
+    {
+        _titleView.gameObject.SetActive(false);
+
+        RecorderSystem.Instance.isReplay = isReplay;
+
+        _inGameSequence.Initialize();
         _mainLoop = _inGameSequence.InGameExecute();
         StartCoroutine(_mainLoop);
     }
+
+    [SerializeField]
+    private TitleView _titleView = default;
 
     InGameSequence _inGameSequence;
     IEnumerator _mainLoop;

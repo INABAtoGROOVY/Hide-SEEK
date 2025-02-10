@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    public void Initalize(Action<int, int> getUIAction)
+    public int itemGetCount { get{ return _getCount; } }
+    public int itemGetLimit{ get{ return _itemPosList.Count; } }
+
+    public void Initalize(Action<int, int> getUIAction, Action<bool> finishAction)
     {
         SetupItem();
 
         _getUIAction = getUIAction;
         _getUIAction(_getCount, _itemPosList.Count);
+
+        _finishAction = finishAction;
     }
 
     public void Execute()
@@ -46,6 +51,7 @@ public class ItemManager : MonoBehaviour
         if(_itemPosList.Count == _getCount)
         {
             Debug.Log("FINISH ");
+            _finishAction(true);
         }
     }
 
@@ -57,4 +63,5 @@ public class ItemManager : MonoBehaviour
     private int _getCount;
     private List<ItemEntity> _itemEntityList = new List<ItemEntity>();
     private Action<int, int> _getUIAction;
+    private Action<bool> _finishAction;
 }
