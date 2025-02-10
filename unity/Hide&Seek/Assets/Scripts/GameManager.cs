@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private void GameInitialize()
     {
         Application.targetFrameRate = 60;
+        SoundManager.Instance.PlayBGM(BGMData.BGMType.Title, false);
     }
 
     private void GameStart(bool isReplay)

@@ -39,7 +39,7 @@ public class InGameSequence : MonoBehaviour
 
     public IEnumerator InGameExecute()
     {
-        SoundManager.Instance.PlayBGM(BGMData.BGMType.InGame);
+        SoundManager.Instance.PlayBGM(BGMData.BGMType.InGame, true);
 
         while (!_isInGameEnd)
         {
@@ -71,6 +71,8 @@ public class InGameSequence : MonoBehaviour
                         }
 
                         _inGameView.SetActiveInGameUI(false);
+
+                        SoundManager.Instance.PlayBGM(BGMData.BGMType.Result, false);
 
                         _resultView.gameObject.SetActive(true);
                         _resultView.Setup(_isSuccess, Mathf.CeilToInt(GAME_TIME_LIMIT - _gameTimer), _itemManager.itemGetCount, _itemManager.itemGetLimit);

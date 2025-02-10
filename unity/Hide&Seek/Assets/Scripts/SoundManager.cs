@@ -21,7 +21,7 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
 
     public EightBitConverter eightBitConverter { get { return _converter; } }
 
-    public void PlayBGM(BGMData.BGMType type)
+    public void PlayBGM(BGMData.BGMType type, bool isConvert)
     {
         BGMData data = GetBGMClip(type);
 
@@ -29,7 +29,7 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
         _bgmSource.loop = data.isLoop;
         _bgmSource.Play();
 
-        _converter.isConvert = true;
+        _converter.isConvert = isConvert;
     }
 
     public void StopBGM()
