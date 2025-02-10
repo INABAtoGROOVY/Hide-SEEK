@@ -135,6 +135,7 @@ public class BGMData
         None,
         Title,
         InGame,
+        Result
     }
 
     [SerializeField]

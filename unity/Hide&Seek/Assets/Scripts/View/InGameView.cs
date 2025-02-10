@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -59,6 +60,16 @@ public class InGameView : MonoBehaviour
 
     public IJoyStick GetJoyStick() => joystick;
 
+    public void SetActiveStartReadyUI(bool isActive)
+    {
+        _startReadyObj.SetActive(isActive);
+    }
+
+    public void SetStartReadyText(string text)
+    {
+        _startReadyText.text = text;
+    }
+
     private void SetInteractableButton(Button button, bool isInteractable)
     {
         button.interactable = isInteractable;
@@ -81,6 +92,12 @@ public class InGameView : MonoBehaviour
 
     [SerializeField]
     private Joystick joystick;
+
+    [SerializeField]
+    private GameObject _startReadyObj;
+
+    [SerializeField]
+    private TextMeshProUGUI _startReadyText;
 
     private static readonly float ActionInterval = 3f;
     private static readonly string HideText = "HIDE";
